@@ -1,0 +1,36 @@
+--تحليل متوسط الدرجة النهائية حسب مستوى التحفيز لدى الطلاب
+--باستخدام group by و order by
+SELECT 
+    motivation,
+    AVG(final_grade) AS avg_final_grade,
+    COUNT(*) AS total_students
+FROM 
+    merged_dataset
+GROUP BY 
+    motivation
+ORDER BY 
+    avg_final_grade DESC;
+
+
+--متوسط درجات الإختبار حسب أسلوب التعلم
+SELECT learning_style, AVG(exam_score) AS AvgExamScore
+FROM merged_dataset
+GROUP BY learning_style
+ORDER BY AvgExamScore DESC;
+
+--تأثير الحضور على الأداء الدراسي
+-- هذا الاستعلام يقوم بتجميع الطلاب حسب مجموعات الحضور (كل 5 درجات)
+-- ويحسب متوسط الدرجة النهائية لكل مجموعة
+SELECT
+    (attendance/5)*5 AS attendance_group,   -- تحويل الحضور إلى مجموعات كل 5 درجات
+    AVG(final_grade) AS avggrade            -- حساب متوسط الدرجة لكل مجموعة
+FROM merged_dataset
+GROUP BY attendance_group                   -- تجميع البيانات حسب كل مجموعة حضور
+ORDER BY attendance_group;                  -- ترتيب النتائج تصاعدياً حسب المجموعة
+
+--الاستعلام يحسب متوسط الدرجات النهائية لكل عدد ساعات الدراسية
+SELECT study_hours,
+       AVG(final_grade) AS avg_final_grade
+FROM students
+GROUP BY study_hours
+ORDER BY study_hours
